@@ -1,0 +1,63 @@
+# SurgActionGen dependencies
+#
+# Two conda environments are required:
+#
+#   cogvideox  — Pipeline A/B training and inference (CUDA 11.8)
+#   raft       — Data preprocessing with RAFT optical flow (CUDA 12.4)
+#
+# Both use Python 3.10.
+#
+# ── cogvideox env (pip install) ──────────────────────────────────────────────
+# Core
+torch==2.7.1+cu118          # https://pytorch.org/get-started/locally/
+torchvision==0.22.1+cu118
+torchaudio==2.7.1+cu118
+numpy==1.26.4
+
+# Video / image
+opencv-python==4.10.0.84
+Pillow==11.3.0
+imageio-ffmpeg==0.6.0
+decord==0.6.0
+
+# ML utilities
+transformers==5.5.3
+diffusers==0.37.1
+accelerate==1.13.0
+peft==0.18.1
+safetensors==0.7.0
+einops==0.8.2
+scipy==1.15.3
+
+# Text / tokenization
+sentencepiece==0.2.1
+tokenizers==0.22.2
+ftfy==6.3.1
+regex
+
+# Logging
+tensorboard==2.20.0
+
+# Misc
+tqdm==4.67.3
+easydict==1.13
+omegaconf==2.3.0
+
+# ── raft env (pip install) ────────────────────────────────────────────────────
+# Core
+# torch==2.6.0+cu124        (install via pytorch.org for CUDA 12.4)
+# torchvision==0.21.0+cu124
+# numpy==2.2.6
+# opencv-python==4.13.0.92
+# omegaconf==2.3.0
+# tqdm==4.67.3
+
+# ── External dependencies (not on PyPI, must be cloned separately) ────────────
+#
+# Wan2.1 source (required for Pipeline A training + inference):
+#   git clone https://github.com/Wan-Video/Wan2.1 /path/to/Wan2.1
+#   Pass the path to scripts via --wan_dir /path/to/Wan2.1
+#
+# VBench (required only for eval/eval_vbench.py):
+#   git clone https://github.com/Vchitect/VBench /path/to/VBench
+#   Pass the path via --vbench_dir /path/to/VBench

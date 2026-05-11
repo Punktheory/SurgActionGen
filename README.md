@@ -16,7 +16,7 @@
 <p><sub>
   <b>Top:</b> Wan2.1 (no fine-tuning) &nbsp;·&nbsp;
   <b>Middle:</b> Wan2.1 + LoRA &nbsp;·&nbsp;
-  <b>Bottom:</b> Wan2.1 + LoRA + <b>SurgActionGen</b> — stable, coherent surgical motion
+  <b>Bottom:</b> Wan2.1 + LoRA + <b>SurgActionGen</b>
 </sub></p>
 
 </div>
@@ -248,7 +248,3 @@ Converges to `cos(ẑ_pred, z_real) = 0.818` — predicted z drives the adapter 
 
 ---
 
-
-<div align="center">
-<sub>Built on <a href="https://github.com/Wan-Video/Wan2.1">Wan2.1</a> · evaluated with <a href="https://github.com/Vchitect/VBench">VBench</a> · trained on <a href="https://camma.unistra.fr/datasets/">Cholec80</a> + <a href="https://github.com/CAMMA-public/cholect50">CholecT50</a></sub>
-</div>

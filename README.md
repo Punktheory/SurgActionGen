@@ -5,11 +5,8 @@
 <p><em>Surgical video generation that actually moves like surgery.</em></p>
 
 <p>
-  <a href="#"><img src="https://img.shields.io/badge/CVPR-2026-7B2D8B?style=flat-square"/></a>
-  <a href="#"><img src="https://img.shields.io/badge/arXiv-2026-red?style=flat-square"/></a>
   <a href="#"><img src="https://img.shields.io/badge/Python-3.10-3776AB?style=flat-square&logo=python&logoColor=white"/></a>
   <a href="#"><img src="https://img.shields.io/badge/PyTorch-2.7-EE4C2C?style=flat-square&logo=pytorch&logoColor=white"/></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square"/></a>
 </p>
 
 <br>
@@ -251,28 +248,6 @@ Converges to `cos(ẑ_pred, z_real) = 0.818` — predicted z drives the adapter 
 
 ---
 
-## Architecture in 30 Seconds
-
-**FlowAutoEncoder** — CNN encoder maps RAFT optical flow to a 128-dim code `z` on the unit hypersphere. InfoNCE loss forces different frames to different z. Structurally collapse-proof.
-
-**WanActionAdapter** — 2M-param MLP reads `z_seq` and writes two signals into the frozen DiT: `g` into the time embedder (global motion style), `F` into the patch embedder (per-frame detail). Five proxy losses train it without access to diffusion gradients.
-
-**ZPredictor** — 4-layer Transformer Decoder maps a CLIP text embedding to `ẑ_seq`. The predicted z is functionally equivalent to z extracted from a real surgical video (`cos = 0.818`).
-
----
-
-## Citation
-
-```bibtex
-@inproceedings{surgactiongen2026,
-  title     = {SurgActionGen: Motion-Stabilized Surgical Video Generation via Latent Motion Priors},
-  author    = {...},
-  booktitle = {CVPR},
-  year      = {2026}
-}
-```
-
----
 
 <div align="center">
 <sub>Built on <a href="https://github.com/Wan-Video/Wan2.1">Wan2.1</a> · evaluated with <a href="https://github.com/Vchitect/VBench">VBench</a> · trained on <a href="https://camma.unistra.fr/datasets/">Cholec80</a> + <a href="https://github.com/CAMMA-public/cholect50">CholecT50</a></sub>

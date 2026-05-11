@@ -69,7 +69,7 @@ Three stages. One forward pass at inference. No reference video needed.
 | **Ours** | **2.384** | **1.263** | **2.608** | **0.9755** | **0.9433** |
 | | −9.6% | −15.2% | −9.8% | +0.3% | +1.4% |
 
-*200 prompts · 8 GPUs · dynamic degree fully preserved*
+*200 prompts · 4 GPUs · dynamic degree fully preserved*
 
 </div>
 

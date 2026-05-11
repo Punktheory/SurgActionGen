@@ -97,9 +97,56 @@ Scale = 0.5 achieves the best joint improvement across flow variance, smoothness
 
 ---
 
+## Dataset Preparation
+
+Our dataset integrates two publicly available surgical datasets.  You must
+download them directly from the official sources under their respective
+license terms before running any preparation scripts.
+
+| Dataset | Source | Notes |
+|:--------|:-------|:------|
+| **Cholec80** | [https://camma.unistra.fr/datasets/](https://camma.unistra.fr/datasets/) | 80 laparoscopic cholecystectomy videos at 25 FPS with phase annotations. Request access via the CAMMA group. |
+| **CholecT50** | [https://github.com/CAMMA-public/cholect50](https://github.com/CAMMA-public/cholect50) | Instrument-verb-target triplet annotations (1 FPS) for 45 Cholec80 videos. |
+
+Once downloaded, run the two preparation scripts in order:
+
+```bash
+conda activate cogvideox   # or any env with opencv, tqdm, ffmpeg
+
+# Step 1 — Map CholecT50 timestamps → Cholec80 clips (~15 min)
+python data_preparation/01_extract_action_clips.py \
+    --cholec80_dir /path/to/cholec80 \
+    --anno_dir     /path/to/cholect50/annotations \
+    --out_dir      data/cholec80_action \
+    --min_sec      3
+
+# Step 2 — Generate captions from triplets
+#   Option A: template-based (fast, no API key)
+python data_preparation/02_generate_captions.py \
+    --metadata data/cholec80_action/clips_metadata.json
+
+#   Option B: GPT-4o (richer captions, matches paper quality)
+export OPENAI_API_KEY=sk-...
+python data_preparation/02_generate_captions.py \
+    --metadata    data/cholec80_action/clips_metadata.json \
+    --backend     openai  --model gpt-4o  --max_workers 16
+```
+
+This produces:
+- `data/cholec80_action/clips/` — 5,209 short MP4 clips
+- `data/cholec80_action/clips_metadata.json` — per-clip frame ranges and triplets
+- `data/cholec80_action/clips_captions.json` — per-clip captions (input for training)
+
+> **License note:** Cholec80 and CholecT50 are released for non-commercial
+> research use only.  The dataset preparation code is provided to reproduce
+> our results; redistribution of the derived clips is not permitted without
+> the original rights-holders' consent.
+
+---
+
 ## Quickstart
 
-**Prereqs:** Wan2.1-T2V-1.3B weights · Cholec80 (licensed) · CUDA 11.8+
+**Prereqs:** Wan2.1-T2V-1.3B weights · Cholec80 + CholecT50 (see above) · CUDA 11.8+
 
 ```bash
 # 1. Clone + install
@@ -133,7 +180,7 @@ pip install torch==2.6.0+cu124 torchvision --index-url https://download.pytorch.
 pip install opencv-python numpy omegaconf tqdm
 
 python scripts/prepare_cholec80_laof.py \
-    --clip_dir /path/to/cholec80/clips \
+    --clip_dir data/cholec80_action/clips \
     --out_dir  data/processed/cholec80_laof_256 \
     --gpus 0,1,2,3,4,5,6,7
 ```
@@ -228,5 +275,5 @@ Converges to `cos(ẑ_pred, z_real) = 0.818` — predicted z drives the adapter 
 ---
 
 <div align="center">
-<sub>Built on <a href="https://github.com/Wan-Video/Wan2.1">Wan2.1</a> · evaluated with <a href="https://github.com/Vchitect/VBench">VBench</a> · trained on <a href="https://camma.unistra.fr/datasets/">Cholec80</a></sub>
+<sub>Built on <a href="https://github.com/Wan-Video/Wan2.1">Wan2.1</a> · evaluated with <a href="https://github.com/Vchitect/VBench">VBench</a> · trained on <a href="https://camma.unistra.fr/datasets/">Cholec80</a> + <a href="https://github.com/CAMMA-public/cholect50">CholecT50</a></sub>
 </div>

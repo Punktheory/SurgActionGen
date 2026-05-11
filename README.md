@@ -14,10 +14,13 @@
 
 <br>
 
-<!-- Replace with actual side-by-side GIF comparison -->
-<img src="assets/teaser.gif" width="800" alt="Wan2.1+LoRA (jittery) vs SurgActionGen (stable)"/>
+<img src="assets/teaser.png" width="860" alt="Comparison: Un-fine-tuned vs LoRA vs LoRA + SurgActionGen"/>
 
-<p><sub><b>Left:</b> Wan2.1 + LoRA — aesthetically plausible, physically wrong &nbsp;|&nbsp; <b>Right:</b> + SurgActionGen — real surgical motion dynamics</sub></p>
+<p><sub>
+  <b>Top:</b> Wan2.1 (no fine-tuning) &nbsp;·&nbsp;
+  <b>Middle:</b> Wan2.1 + LoRA &nbsp;·&nbsp;
+  <b>Bottom:</b> Wan2.1 + LoRA + <b>SurgActionGen</b> — stable, coherent surgical motion
+</sub></p>
 
 </div>
 

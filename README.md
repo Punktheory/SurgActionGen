@@ -108,7 +108,7 @@ license terms before running any preparation scripts.
 Once downloaded, run the two preparation scripts in order:
 
 ```bash
-conda activate cogvideox   # or any env with opencv, tqdm, ffmpeg
+conda activate SurgActionGen   # or any env with opencv, tqdm, ffmpeg
 
 # Step 1 — Map CholecT50 timestamps → Cholec80 clips (~15 min)
 python data_preparation/01_extract_action_clips.py \

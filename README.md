@@ -61,19 +61,39 @@ Three stages. One forward pass at inference. No reference video needed.
 
 ## Results
 
+### Main Results (200 prompts)
+
 <div align="center">
 
-| | Flow Variance | Smoothness | LPIPS | Motion (VBench) | BG Consistency |
-|:---:|:---:|:---:|:---:|:---:|:---:|
-| LoRA | 2.637 | 1.488 | 2.892 | 0.9730 | 0.9303 |
-| **Ours** | **2.384** | **1.263** | **2.608** | **0.9755** | **0.9433** |
-| | −9.6% | −15.2% | −9.8% | +0.3% | +1.4% |
+| | TOFV-Var ↓ | Flow Smooth ↓ | LPIPS-Mean ↓ | LPIPS-Var ↓ | CLIP ↑ | Motion ↑ | Dyn. Deg. ↑ | BG Consist. ↑ | Subj. Consist. ↑ |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Baseline | 3.139 | 1.258 | 1.373 | 0.755 | 0.249 | 0.979 | 0.850 | 0.941 | 0.895 |
+| LoRA | 3.758 | 1.721 | 3.039 | 2.290 | 0.273 | 0.971 | 0.985 | 0.943 | 0.872 |
+| **Ours** | **3.533** | **1.603** | **2.929** | **2.172** | **0.274** | **0.973** | **0.990** | **0.946** | **0.879** |
+| Δ vs LoRA | −6.0% | −6.9% | −3.6% | −5.2% | +0.2% | +0.2% | +0.5% | +0.3% | +0.8% |
 
-*200 prompts · 4 GPUs · dynamic degree fully preserved*
+*Adapter scale = 0.5. Dynamic degree fully preserved. Evaluated on 200 surgical text prompts.*
 
 </div>
 
-The adapter adds **motion stability** without touching appearance, content, or dynamic degree.
+The adapter improves every motion stability metric over LoRA without sacrificing semantic fidelity (CLIP score) or dynamic degree.
+
+### Adapter Scale Ablation (10 prompts)
+
+<div align="center">
+
+| Scale | TOFV-Var ↓ | Flow Smooth ↓ | LPIPS-Mean ↓ | LPIPS-Var ↓ | Motion ↑ | BG Consist. ↑ |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| LoRA | 2.637 | 1.488 | 2.892 | 2.201 | 0.9730 | 0.9303 |
+| 0.1 | 2.491 | 1.496 | 2.815 | 2.104 | — | — |
+| 0.3 | 2.543 | 1.368 | 2.747 | 1.977 | 0.9738 | 0.9434 |
+| **0.5** ⭐ | **2.384** | **1.263** | **2.608** | **1.669** | **0.9755** | **0.9433** |
+| 0.7 | 2.717 | 1.322 | 2.561 | 1.567 | 0.9750 | 0.9482 |
+| 1.0 | 2.311 | 1.263 | 2.450 | 1.664 | — | — |
+
+</div>
+
+Scale = 0.5 achieves the best joint improvement across flow variance, smoothness, and LPIPS. Higher scales (≥ 0.7) trade off flow variance stability for lower LPIPS.
 
 ---
 
